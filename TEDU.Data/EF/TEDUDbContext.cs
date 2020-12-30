@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TEDU.Data.Configurations;
 using TEDU.Data.Entities;
+using TEDU.Data.Extensions;
 
 namespace TEDU.Data.EF
 {
@@ -14,7 +15,7 @@ namespace TEDU.Data.EF
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            //Configuration using Fluent API
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
             modelBuilder.ApplyConfiguration(new CartConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
@@ -29,6 +30,9 @@ namespace TEDU.Data.EF
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
+
+            //Data Seeding
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
 
