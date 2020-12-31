@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TEDU.Data.EF;
 
 namespace TEDU.Data.Migrations
 {
     [DbContext(typeof(TEDUDbContext))]
-    partial class TEDUDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201230093009_AspNetCoreIdentityDatabase")]
+    partial class AspNetCoreIdentityDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,13 +94,6 @@ namespace TEDU.Data.Migrations
                     b.HasKey("UserId", "RoleId");
 
                     b.ToTable("AppUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("55ab337c-d028-40dc-9c41-8aee98ae164f"),
-                            RoleId = new Guid("e33a7493-7c96-4e36-b0dd-df70386004f5")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -175,16 +170,6 @@ namespace TEDU.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e33a7493-7c96-4e36-b0dd-df70386004f5"),
-                            ConcurrencyStamp = "73b557c8-bfa6-4bc7-8367-0131611bc808",
-                            Description = "Administrator role",
-                            Name = "admin",
-                            NormalizedName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("TEDU.Data.Entities.AppUser", b =>
@@ -251,27 +236,6 @@ namespace TEDU.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("55ab337c-d028-40dc-9c41-8aee98ae164f"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "fea79d6e-252b-4496-9e2d-2e9578d78c7c",
-                            Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "minhnghia@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Toan",
-                            LastName = "Bach",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "minhnghia@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAECULW21bucLLxIZmJGMlH19mxt9iJqNBUfXBbOs+5LTqe7oxLNHRQvw08t5Cfgulmw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        });
                 });
 
             modelBuilder.Entity("TEDU.Data.Entities.Cart", b =>
@@ -510,7 +474,7 @@ namespace TEDU.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 12, 30, 16, 42, 27, 352, DateTimeKind.Local).AddTicks(986));
+                        .HasDefaultValue(new DateTime(2020, 12, 30, 16, 30, 8, 809, DateTimeKind.Local).AddTicks(9722));
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -601,7 +565,7 @@ namespace TEDU.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2020, 12, 30, 16, 42, 27, 367, DateTimeKind.Local).AddTicks(4751),
+                            DateCreated = new DateTime(2020, 12, 30, 16, 30, 8, 825, DateTimeKind.Local).AddTicks(2624),
                             OriginalPrice = 1000000m,
                             Price = 200000m,
                             Stock = 0,
