@@ -6,3 +6,6 @@
 - Tools
 - design
 - SqlServer
+
+## 31/12
+- SOLID: Dependency inverse --> Dependency Injection
