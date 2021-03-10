@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TEDU.Application.Catalog.Products.Dtos;
-using TEDU.Application.Catalog.Products.Dtos.Manage;
-using TEDU.Application.Dtos;
+using TEDU.ViewModels.Catalog.Products;
+using TEDU.ViewModels.Common;
 
 namespace TEDU.Application.Catalog.Products
 {
@@ -23,7 +23,17 @@ namespace TEDU.Application.Catalog.Products
         Task AddViewcount(int productId);
 
       
-        Task<PagedResult<ProductViewModel>> GetAllPaging(GetProductPagingRequest request);
+        Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+
+        //thêm riêng ảnh
+        Task<int> AddImages(int productId, List<IFormFile> files);
+
+        Task<int> RemoveImages(int imageId);
+
+        Task<int> UpdateImages(int imageId, string caption, bool isDefault);
+
+        Task<List<ProductImageViewModel>> GetListImage(int productId);
+
 
 
     }

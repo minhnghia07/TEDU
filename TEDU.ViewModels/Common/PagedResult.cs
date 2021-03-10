@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TEDU.Application.Dtos
+namespace TEDU.ViewModels.Common
 {
     public class PagedResult<T> 
     {
