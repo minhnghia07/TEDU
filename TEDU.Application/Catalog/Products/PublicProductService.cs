@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TEDU.Application.Catalog.Products;
-using TEDU.Application.Catalog.Products.Dtos;
-using TEDU.Application.Catalog.Products.Dtos.Manage;
-using TEDU.Application.Dtos;
 using TEDU.Data.EF;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using TEDU.ViewModels.Catalog.Products;
+using TEDU.ViewModels.Common;
+
 
 namespace TEDU.Application.Catalog.Products
 {
@@ -19,7 +18,8 @@ namespace TEDU.Application.Catalog.Products
         {
             _context = context;
         }
-        public async Task<PagedResult<ProductViewModel>> GetByAllCategoryId(Dtos.Public.GetProductPagingRequest request)
+
+        public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
         {
             //1. Select join
             var query = from p in _context.Products
@@ -28,10 +28,9 @@ namespace TEDU.Application.Catalog.Products
                         join c in _context.Categories on pic.CategoryId equals c.Id
                         select new { p, pt, pic };
             //2. filter
-           
-            if (request.CategoryId.HasValue && request.CategoryId.Value > 0) 
+            if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
             {
-                query = query.Where(p => request.CategoryId == request.CategoryId);
+                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
             }
             //3. Paging
             int totalRow = await query.CountAsync();
@@ -62,6 +61,11 @@ namespace TEDU.Application.Catalog.Products
                 Items = data
             };
             return pagedResult;
+        }
+
+        public Task<PagedResult<ProductViewModel>> GetByAllCategoryId(GetPublicProductPagingRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }
