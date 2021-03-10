@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TEDU.Application.Catalog.Products.Dtos
+namespace TEDU.ViewModels.Catalog.Products
 {
     public class ProductViewModel
     {
         public int Id { get; set; }
-        public Decimal Price { get; set; }
+        public decimal Price { set; get; }
         public decimal OriginalPrice { get; set; }
         public int Stock { get; set; }
         public int ViewCount { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace TEDU.Application.Catalog.Products.Dtos.Manage
+﻿using Microsoft.AspNetCore.Http;
+
+namespace TEDU.ViewModels.Catalog.Products
 {
     public class ProductUpdateRequest
     {
@@ -11,6 +13,8 @@
 
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
+
+        public IFormFile ThumbnailImage { get; set; }
 
     }
 }

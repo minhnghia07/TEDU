@@ -1,12 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TEDU.Data\TEDU.Data.csproj" />
     <ProjectReference Include="..\TEDU.Etilities\TEDU.Utilities.csproj" />
+    <ProjectReference Include="..\TEDU.ViewModels\TEDU.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

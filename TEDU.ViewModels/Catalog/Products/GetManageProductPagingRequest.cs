@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TEDU.Application.Dtos;
+using TEDU.ViewModels.Common;
 
-namespace TEDU.Application.Catalog.Products.Dtos.Manage
+namespace TEDU.ViewModels.Catalog.Products
 {
-    public class GetProductPagingRequest : PagingRequestBase
+    public class GetManageProductPagingRequest : PagingRequestBase
     {
         public string Keyword { get; set; }
+
         public List<int> CategoryIds { get; set; }
     }
 }
