@@ -10,5 +10,7 @@ namespace TEDU.Application.Catalog.Products
     public interface IPublicProductService
     {
          Task<PagedResult<ProductViewModel>> GetByAllCategoryId(GetPublicProductPagingRequest request);
+
+        Task<List<ProductViewModel>> GetAll();
     }
 }
