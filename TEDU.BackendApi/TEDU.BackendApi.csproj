@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TEDU.Application\TEDU.Application.csproj" />
     <ProjectReference Include="..\TEDU.Data\TEDU.Data.csproj" />
     <ProjectReference Include="..\TEDU.Etilities\TEDU.Utilities.csproj" />

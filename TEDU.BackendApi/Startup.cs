@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using TEDU.Application.Catalog.Products;
 using TEDU.Data.EF;
 using TEDU.Utilities.Constants;
@@ -34,6 +35,11 @@ namespace TEDU.BackendApi
             //Declare DI
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddControllersWithViews();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger TEDU Solution", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +61,13 @@ namespace TEDU.BackendApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();//swagger api
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "swagger TEDU V1");
+            });//swagger api
 
             app.UseEndpoints(endpoints =>
             {
