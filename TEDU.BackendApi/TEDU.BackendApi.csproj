@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TEDU.Application\TEDU.Application.csproj" />
+    <ProjectReference Include="..\TEDU.Data\TEDU.Data.csproj" />
+    <ProjectReference Include="..\TEDU.Etilities\TEDU.Utilities.csproj" />
+    <ProjectReference Include="..\TEDU.ViewModels\TEDU.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
