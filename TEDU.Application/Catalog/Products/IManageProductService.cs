@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TEDU.ViewModels.Catalog.Products;
+using TEDU.Application.Catalog.ProductImages;
+using TEDU.ViewModels.Catalog.ProductsImages;
 using TEDU.ViewModels.Common;
 
 namespace TEDU.Application.Catalog.Products
@@ -22,17 +23,20 @@ namespace TEDU.Application.Catalog.Products
 
         Task AddViewcount(int productId);
 
+        Task<ProductViewModel> GetById(int productId, string languageId);
+
       
         Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
 
         //thêm riêng ảnh
-        Task<int> AddImages(int productId, List<IFormFile> files);
+        Task<int> AddImage(int productId, ProductImageCreateRequest request);
 
-        Task<int> RemoveImages(int imageId);
+        Task<int> RemoveImage(int imageId);
 
-        Task<int> UpdateImages(int imageId, string caption, bool isDefault);
+        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
 
-        Task<List<ProductImageViewModel>> GetListImage(int productId);
+        Task<ProductImageViewModel> GetImageById(int imageId);
+        Task<List<ProductImageViewModel>> GetListImages(int productId);
 
 
 

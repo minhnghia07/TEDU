@@ -7,12 +7,13 @@ using System.Linq;
 using TEDU.Data.Entities;
 using TEDU.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using TEDU.ViewModels.Catalog.Products;
+using TEDU.ViewModels.Catalog.ProductsImages;
 using TEDU.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using TEDU.Application.Common;
+using TEDU.Application.Catalog.ProductImages;
 
 namespace TEDU.Application.Catalog.Products
 {
@@ -57,7 +58,7 @@ namespace TEDU.Application.Catalog.Products
                 }
             };
             //save Image
-            if(request.ThumbnailImage != null)
+            if (request.ThumbnailImage != null)
             {
                 product.ProductImages = new List<ProductImage>()
                 {
@@ -73,7 +74,8 @@ namespace TEDU.Application.Catalog.Products
                 };
             }
             _context.Products.Add(product);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task<int> Delete(int productId)
@@ -159,7 +161,7 @@ namespace TEDU.Application.Catalog.Products
             {
                 var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
 
-                if(request.ThumbnailImage != null)
+                if (request.ThumbnailImage != null)
                 {
                     thumbnailImage.FileSize = request.ThumbnailImage.Length;
                     thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
@@ -194,24 +196,106 @@ namespace TEDU.Application.Catalog.Products
             return fileName;
         }
 
-        public Task<int> AddImages(int productId, List<IFormFile> files)
+        public async Task<ProductViewModel> GetById(int productId, string languageId)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(productId);
+            var productTransaction = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId);
+
+            var productViewModel = new ProductViewModel()
+            {
+                Id = product.Id,
+                DateCreated = product.DateCreated,
+                Description = productTransaction != null ? productTransaction.Description : null,
+                LanguageId = productTransaction.LanguageId,
+                Details = productTransaction != null ? productTransaction.Details : null,
+                Name = productTransaction != null ? productTransaction.Name : null,
+                OriginalPrice = product.OriginalPrice,
+                Price = product.Price,
+                SeoAlias = productTransaction != null ? productTransaction.SeoAlias : null,
+                SeoDescription = productTransaction != null ? productTransaction.SeoDescription : null,
+                SeoTitle = productTransaction != null ? productTransaction.SeoTitle : null,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount
+            };
+            return productViewModel;
         }
 
-        public Task<int> RemoveImages(int imageId)
+        public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
         {
-            throw new NotImplementedException();
+            var productImage = new ProductImage()
+            {
+                Caption = request.Caption,
+                DateCreated = DateTime.Now,
+                IsDefault = request.IsDefault,
+                ProductId = productId,
+                SortOder = request.SortOder
+            };
+            if (request.ImageFile != null)
+            {
+                productImage.ImagePath = await this.SaveFile(request.ImageFile);
+                productImage.FileSize = request.ImageFile.Length;
+            }
+            _context.ProductImages.Add(productImage);
+            await _context.SaveChangesAsync();
+            return productImage.Id;
         }
 
-        public Task<int> UpdateImages(int imageId, string caption, bool isDefault)
+        public async Task<int> RemoveImage(int imageId)
         {
-            throw new NotImplementedException();
+            var productImage = await _context.ProductImages.FindAsync(imageId);
+            if (productImage == null)
+                throw new TEDUException($"Cannot find an image with id{imageId}");
+            _context.ProductImages.Remove(productImage);
+            return await _context.SaveChangesAsync();
         }
 
-        public Task<List<ProductImageViewModel>> GetListImage(int productId)
+        public async Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request)
         {
-            throw new NotImplementedException();
+            var productImage = await _context.ProductImages.FindAsync(imageId);
+            if (productImage == null)
+                throw new TEDUException($"Cannot find an image with id{imageId}");
+            if (request.ImageFile != null)
+            {
+                productImage.ImagePath = await this.SaveFile(request.ImageFile);
+                productImage.FileSize = request.ImageFile.Length;
+            }
+            _context.ProductImages.Update(productImage);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<ProductImageViewModel>> GetListImages(int productId)
+        {
+            return await _context.ProductImages.Where(x => x.ProductId == productId)
+                .Select(i => new ProductImageViewModel()
+                {
+                    Caption = i.Caption,
+                    DateCreated = i.DateCreated,
+                    FileSize = i.FileSize,
+                    Id = i.Id,
+                    ImagePath = i.ImagePath,
+                    IsDefault = i.IsDefault,
+                    ProductId = i.ProductId,
+                    SortOrder = i.SortOder
+                }).ToListAsync();
+        }
+
+        public async Task<ProductImageViewModel> GetImageById(int imageId)
+        {
+            var image = await _context.ProductImages.FindAsync(imageId);
+            if (image == null)
+                throw new TEDUException($"Cannot find an with id{imageId}");
+            var viewModel = new ProductImageViewModel()
+            {
+                Caption = image.Caption,
+                DateCreated = image.DateCreated,
+                FileSize = image.FileSize,
+                Id = image.Id,
+                ImagePath = image.ImagePath,
+                IsDefault = image.IsDefault,
+                ProductId = image.ProductId,
+                SortOrder = image.SortOder
+            };
+            return viewModel;
         }
     }
 }

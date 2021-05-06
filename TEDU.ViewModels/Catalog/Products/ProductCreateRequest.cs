@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace TEDU.ViewModels.Catalog.Products
+namespace TEDU.ViewModels.Catalog.ProductsImages
 {
     public class ProductCreateRequest
     {

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TEDU.Application.Catalog.Products;
+using TEDU.Application.Common;
 using TEDU.Data.EF;
 using TEDU.Utilities.Constants;
 
@@ -33,7 +34,9 @@ namespace TEDU.BackendApi
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionstring)));
 
             //Declare DI
+            services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IPublicProductService, PublicProductService>();
+            services.AddTransient<IManageProductService, ManageProductService>();
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(c =>
