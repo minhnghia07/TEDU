@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace TEDU.ViewModels.Catalog.Products
+namespace TEDU.ViewModels.Catalog.ProductsImages
 {
     public class ProductUpdateRequest
     {
