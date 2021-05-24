@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TEDU.Application.Catalog.Products;
 using TEDU.Application.Common;
+using TEDU.Application.System.Users;
 using TEDU.Data.EF;
+using TEDU.Data.Entities;
 using TEDU.Utilities.Constants;
 
 namespace TEDU.BackendApi
@@ -31,12 +34,20 @@ namespace TEDU.BackendApi
         {
            
             services.AddDbContext<TEDUDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionstring)));
+                options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<TEDUDbContext>()
+                .AddDefaultTokenProviders();
             //Declare DI
             services.AddTransient<IStorageService, FileStorageService>();
+
             services.AddTransient<IPublicProductService, PublicProductService>();
             services.AddTransient<IManageProductService, ManageProductService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<IUserService, UserService>();
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(c =>
