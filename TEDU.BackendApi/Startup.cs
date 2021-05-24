@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +21,7 @@ using TEDU.Application.System.Users;
 using TEDU.Data.EF;
 using TEDU.Data.Entities;
 using TEDU.Utilities.Constants;
+using TEDU.ViewModels.System.Users;
 
 namespace TEDU.BackendApi
 {
@@ -51,7 +54,12 @@ namespace TEDU.BackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
 
-            services.AddControllers();
+            services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
+            services.AddControllers().AddFluentValidation(
+                fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>()
+                );
 
             services.AddSwaggerGen(c =>
             {
