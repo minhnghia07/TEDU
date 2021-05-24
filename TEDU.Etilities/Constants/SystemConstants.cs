@@ -6,6 +6,6 @@ namespace TEDU.Utilities.Constants
 {
     public class SystemConstants
     {
-        public const string MainConnectionstring = "TEDUDb";
+        public const string MainConnectionString = "TEDUDb";
     }
 }
