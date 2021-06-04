@@ -5,22 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TEDU.Application.Catalog.Products;
 using TEDU.Application.System.Users;
+using TEDU.ViewModels.Catalog.ProductsImages;
 using TEDU.ViewModels.System.Users;
 
 namespace TEDU.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         
 
         private readonly IUserService _userService;
+        
 
         public UsersController(IUserService userService)
         {
             _userService = userService;
+            
         }
 
         [HttpPost("authenticate")]
@@ -35,10 +40,10 @@ namespace TEDU.BackendApi.Controllers
             {
                 return BadRequest("Username or password is incorrect.");
             }
-            return Ok(new { token = resultToken });
+            
+            return Ok(resultToken);
         }
-
-        [HttpPost("register")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -50,7 +55,17 @@ namespace TEDU.BackendApi.Controllers
             {
                 return BadRequest("Register is unsuccessful.");
             }
+            
             return Ok();
         }
+
+        //https://localhost/api/users/paging?pageIndex=1&pageSize=10&keyword=ll
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
+        {
+            var products = await _userService.GetUserPaging(request);
+            return Ok(products);
+        }
+
     }
 }

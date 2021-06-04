@@ -17,7 +17,7 @@
     },
     "TEDU.BackendApi": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",//đường dẫn api
       "applicationUrl": "https://localhost:5001",
       "environmentVariables": {
