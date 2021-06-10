@@ -10,7 +10,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TEDU.Data.Entities;
-using TEDU.ViewModels.Catalog.ProductsImages;
 using TEDU.ViewModels.Common;
 using TEDU.ViewModels.System.Users;
 
@@ -20,15 +19,13 @@ namespace TEDU.Application.System.Users
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
 
         public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            RoleManager<AppRole> roleManager, IConfiguration config)
+             IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _config = config;
         }
         public async Task<string > Authencate(LoginRequest request)
@@ -67,28 +64,31 @@ namespace TEDU.Application.System.Users
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.UserName.Contains(request.Keyword)
-                || x.PhoneNumber.Contains(request.Keyword));
+                 || x.PhoneNumber.Contains(request.Keyword));
             }
-            //paging
+
+            //3. Paging
             int totalRow = await query.CountAsync();
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new UserVm()
                 {
-                    Id = x.Id,
                     Email = x.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
+                    PhoneNumber = x.PhoneNumber,
                     UserName = x.UserName,
-                    PhoneNumber = x.PhoneNumber
+                    FirstName = x.FirstName,
+                    Id = x.Id,
+                    LastName = x.LastName
                 }).ToListAsync();
-            var pageResult = new PagedResult<UserVm>()
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<UserVm>()
             {
                 TotalRecord = totalRow,
                 Items = data
             };
-            return pageResult;
+            return pagedResult;
         }
 
         public async Task<bool> Register(RegisterRequest request)
