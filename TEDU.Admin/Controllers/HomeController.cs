@@ -10,8 +10,8 @@ using TEDU.Admin.Models;
 
 namespace TEDU.Admin.Controllers
 {
-    [Authorize]//chưa login thì không cho vào
-    public class HomeController : Controller
+    
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
