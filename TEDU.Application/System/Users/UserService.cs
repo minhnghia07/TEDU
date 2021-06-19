@@ -90,7 +90,9 @@ namespace TEDU.Application.System.Users
             //4. Select and projection
             var pagedResult = new PagedResult<UserVm>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
                 Items = data
             };
             return new ApiSuccessResult<PagedResult<UserVm>>(pagedResult);
@@ -160,7 +162,8 @@ namespace TEDU.Application.System.Users
                 FirstName = user.FirstName,
                 LastName = user.LastName,              
                 PhoneNumber = user.PhoneNumber,
-                Dob = user.Dob
+                Dob = user.Dob,
+                UserName = user.UserName
 
             };
             return new ApiSuccessResult<UserVm>(userVm);

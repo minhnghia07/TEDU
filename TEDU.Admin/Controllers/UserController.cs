@@ -28,17 +28,16 @@ namespace TEDU.Admin.Controllers
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
-           
             var request = new GetUserPagingRequest()
-            {            
+            {
+                Keyword = keyword,
                 PageIndex = pageIndex,
-                PageSize = pageSize,
-                Keyword = keyword
+                PageSize = pageSize
             };
             var data = await _userApiClient.GetUsersPagings(request);
-            return View(data.ResultObj);///ra pageUser
+            return View(data.ResultObj);
         }
-       
+
 
         [HttpPost]
         public async Task<IActionResult> Logout()
@@ -101,6 +100,13 @@ namespace TEDU.Admin.Controllers
 
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+            return View(result.ResultObj);
         }
 
     }
