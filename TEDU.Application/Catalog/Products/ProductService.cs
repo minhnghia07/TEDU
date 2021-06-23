@@ -335,7 +335,7 @@ namespace TEDU.Application.Catalog.Products
                     ViewCount = x.p.ViewCount
                 }).ToListAsync();
 
-            //4. Select and projection
+            //4. Select and projection, paging
             var pagedResult = new PagedResult<ProductViewModel>()
             {
                 TotalRecords = totalRow,
