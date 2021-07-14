@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TEDU.Admin.Services;
+using TEDU.Utilities.Constants;
 using TEDU.ViewModels.System.Users;
 
 namespace TEDU.Admin.Controllers
@@ -52,7 +53,8 @@ namespace TEDU.Admin.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10).AddMinutes(10),
                 IsPersistent = false
             };
-            HttpContext.Session.SetString("Token", result.ResultObj);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 userPrincipal,
