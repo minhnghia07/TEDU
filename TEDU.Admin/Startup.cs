@@ -39,7 +39,7 @@ namespace TEDU.Admin
 
             services.AddTransient<IUserApiClient, UserApiClient>();
             services.AddTransient<IRoleApiClient, RoleApiClient>();
-
+            services.AddTransient<ILanguageApiClient, LanguageApiClient>();
             services.AddControllers().AddFluentValidation(
                 fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
             // runtime enroviment k load lai

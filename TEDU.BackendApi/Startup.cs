@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TEDU.Application.Catalog.Products;
 using TEDU.Application.Common;
+using TEDU.Application.System.Laguages;
 using TEDU.Application.System.Roles;
 using TEDU.Application.System.Users;
 using TEDU.Data.EF;
@@ -49,7 +50,7 @@ namespace TEDU.BackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
-
+            services.AddTransient<ILanguageService, LanguageService>();
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
 
